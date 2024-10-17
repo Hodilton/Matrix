@@ -39,3 +39,6 @@
 *.tlog
 *.idb
 *.pdb
+*.filters
+
+/CMatrix/x64/Debug
