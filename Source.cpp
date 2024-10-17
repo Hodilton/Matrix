@@ -14,6 +14,12 @@ int main() {
         { 7.0, 8.0, 9.0 }
     });
 
+    Matrix<double> matrix4({
+        { 9.0, 2.0, 3.0 },
+        { 5.0, 3.0, 6.0 },
+        { 7.0, 8.0, 1.0 }
+        });
+
     matrix1.initRandomNumbers(-10.0, 10.0);
     matrix2.initRandomNumbers(1.0, 5.0);
 
@@ -27,7 +33,7 @@ int main() {
         std::cout << "Matrix 1 after += Matrix 2:\n" << matrix1 << "\n";
     }
     catch (std::runtime_error& e) {
-        std::cerr << e.what() << '\n';
+        std::cerr << "Error: " << e.what() << '\n';
     }
 
 
@@ -46,8 +52,13 @@ int main() {
     }
 
     try {
-        Matrix<double> invMatrix = matrix1.inverse();
-        std::cout << "Inverse of Matrix 1:\n" << invMatrix << "\n";
+        std::cout << "Matrix 4:\n" << matrix4 << "\n";
+
+        Matrix<double> invMatrix = matrix4.inverse();
+        std::cout << "Inverse of Matrix 4:\n" << invMatrix << "\n";
+
+        Matrix<double> multiply = matrix4 * invMatrix;
+        std::cout << "Matrix 4 * Inverse Matrix4:\n" << multiply << "\n";
     }
     catch (std::runtime_error& e) {
         std::cerr << e.what() << '\n';

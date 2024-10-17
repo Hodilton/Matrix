@@ -51,6 +51,10 @@ private:
 
 	Matrix<T> getMinor(unsigned int row, unsigned int col) const;
 
+	static constexpr T DELTA = 1e-10;
+	void roundValues(int precision);
+	T roundValue(T value, int precision = 0);
+
 public:
 	Matrix(unsigned int rows, unsigned int cols);
 	Matrix(const std::vector<std::vector<T>>& values);

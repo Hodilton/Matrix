@@ -60,10 +60,17 @@ void Matrix<T>::takeMemory() {
 
 template<typename T>
 void Matrix<T>::freeMemory() {
-    unsigned int rows = this->_size.getRows();
-    for (unsigned int i = 0; i < rows; i++) {
-        delete[] this->_elements[i];
-    } delete[]this->_elements;
+    if (this->_elements != nullptr) {
+        unsigned int rows = this->_size.getRows();
+        for (unsigned int i = 0; i < rows; i++) {
+            if (this->_elements[i] != nullptr) {
+                delete[] this->_elements[i];
+                this->_elements[i] = nullptr;
+            }
+        }
+        delete[] this->_elements;
+        this->_elements = nullptr;
+    }
 }
 
 template<typename T>
@@ -99,6 +106,31 @@ Matrix<T> Matrix<T>::getMinor(unsigned int row, unsigned int col) const {
 }
 
 template<typename T>
+void Matrix<T>::roundValues(int precision) {
+    for (unsigned int i = 0; i < this->_size.getRows(); i++) {
+        for (unsigned int j = 0; j < this->_size.getCols(); j++) {
+
+            if (std::fabs(this->_elements[i][j]) < this->DELTA) {
+                this->_elements[i][j] = 0;
+            }
+            else {
+                T roundedValue = this->roundValue(this->_elements[i][j], precision);
+                this->_elements[i][j] = roundedValue;
+            }
+        }
+    }
+}
+
+template<typename T>
+T Matrix<T>::roundValue(T value, int precision) {
+    T scale = std::pow(10, precision);
+    if (std::fabs(value) < DELTA) {
+        return 0;
+    }
+    return std::round(value * scale) / scale;
+}
+
+template<typename T>
 Matrix<T> Matrix<T>::transpose() const {
     unsigned int rows = this->_size.getRows();
     unsigned int cols = this->_size.getCols();
@@ -106,7 +138,7 @@ Matrix<T> Matrix<T>::transpose() const {
 
     for (unsigned int i = 0; i < rows; ++i) {
         for (unsigned int j = 0; j < cols; ++j) {
-            result._elements[j + 1][i + 1] = this->_elements[i][j];
+            result._elements[j][i] = this->_elements[i][j];
         }
     }
     return result;
@@ -134,7 +166,7 @@ T Matrix<T>::determinant() const {
 
 template<typename T>
 Matrix<T> Matrix<T>::inverse() const {
-    T det = determinant();
+    T det = this->determinant();
 
     if (det == 0) {
         throw std::invalid_argument("The inverse matrix does not exist (the determinant is zero)!");
@@ -144,10 +176,10 @@ Matrix<T> Matrix<T>::inverse() const {
     unsigned int cols = this->_size.getCols();
     Matrix<T> result(rows, cols);
 
-    for (unsigned int i = 0; i < rows; ++i) {
-        for (unsigned int j = 0; j < cols; ++j) {
+    for (unsigned int i = 0; i < rows; i++) {
+        for (unsigned int j = 0; j < cols; j++) {
             Matrix<T> minor = getMinor(i, j);
-            result(j + 1, i + 1) = (1 / det) * ((i + j) % 2 == 0 ? 1 : -1) * minor.determinant();
+            result._elements[j][i] = (1 / det) * ((i + j) % 2 == 0 ? 1 : -1) * minor.determinant();
         }
     }
     return result;
@@ -272,7 +304,7 @@ void Matrix<T>::initRandomNumbers(T min, T max, int precision) {
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            if constexpr (std::is_same_v<T, double>) {
+            if constexpr (/*std::is_same_v<T, double>*/std::is_floating_point_v<T>) {
                 auto* doubleGenPtr = dynamic_cast<random::DoubleRandomGenerator*>(gen.get());
                 this->_elements[i][j] = doubleGenPtr->GetWithPrecision(min, max, precision);
             }
@@ -306,7 +338,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& matrix) const {
     unsigned int cols = this->_size.getCols();
 
     if (rows != matrix.getRows() || cols != matrix.getCols()) {
-        throw std::invalid_argument("Matrix sizes must match for addition.");
+        throw std::runtime_error("Matrix sizes must match for addition.");
     }
 
     Matrix<T> result(this->_size.getRows(), this->_size.getCols());
@@ -355,6 +387,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& matrix) const {
             }
         }
     }
+    result.roundValues(6);
     return result;
 }
 
@@ -407,8 +440,8 @@ Matrix<T> Matrix<T>::operator-(const T& value) {
 template<typename T>
 Matrix<T> Matrix<T>::operator*(const T& value) {
     Matrix<T> result(*this);
-    unsigned int rows = this->_size.getRows();
-    unsigned int cols = this->_size.getCols();
+    unsigned int rows = result._size.getRows();
+    unsigned int cols = result._size.getCols();
 
     for (unsigned int i = 0; i < rows; ++i) {
         for (unsigned int j = 0; j < cols; ++j) {
