@@ -31,4 +31,11 @@
 *.out
 *.app
 /.vs
-/x64
+
+*.user
+*.recipe
+*.ilk
+*.log
+*.tlog
+*.idb
+*.pdb
