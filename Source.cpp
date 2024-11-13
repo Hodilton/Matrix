@@ -1,7 +1,10 @@
-#include "stdafx.h"
+#include "./Dependencies/stdafx.h"
+
 #include "Matrix.h"
 
 int main() {
+    using namespace matrix;
+
     SizeMatrix size1(3, 3);
     SizeMatrix size2;
     std::cin >> size2;
