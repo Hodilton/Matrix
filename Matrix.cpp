@@ -320,7 +320,7 @@ namespace matrix {
             }
         }
 
-        this->freeMemory;
+        this->freeMemory();
 
         _elements = newElements;
         _size.setRows(newRows);
@@ -571,6 +571,27 @@ namespace matrix {
     }
 
     template<typename T>
+    std::vector<T> Matrix<T>::operator*(const std::vector<T>& vec) const {
+        if (getCols() != vec.size()) {
+            throw std::invalid_argument("Matrix columns must match vector size for multiplication.");
+        }
+
+        std::vector<T> result(getRows(), 0);
+        for (size_t i = 0; i < getRows(); ++i) {
+            for (size_t j = 0; j < getCols(); ++j) {
+                result[i] += this->_elements[i, j] * T(vec[j]);
+            }
+        }
+        return result;
+    }
+
+    template<typename T>
+    std::vector<T>& Matrix<T>::operator*=(std::vector<T>& vec) const {
+        vec = (*this) * vec;
+        return vec;
+    }
+
+    template<typename T>
     Matrix<T> Matrix<T>::operator+(const T& value) {
         Matrix<T> result(*this);
         unsigned int rows = this->_size.getRows();
@@ -738,18 +759,22 @@ namespace matrix {
     template<typename T>
     inline json matrix::MatrixJsonSerializer<T>::toJson(const Matrix<T>& matrix) {
         json j;
-        j["rows"] = matrix.getRows();
-        j["cols"] = matrix.getCols();
         j["data"] = json::array();
 
+        //for (unsigned int row = 0; row < matrix.getRows(); ++row) {
+        //    std::vector<T> rows;
+
+        //    for (unsigned int col = 0; col < matrix.getCols(); ++col) {
+        //        rows.push_back(matrix(row, col));
+        //    }
+
+        //    j["data"].push_back(rows);
+        //}
+
+        //return j;
+
         for (unsigned int row = 0; row < matrix.getRows(); ++row) {
-            std::vector<T> rows;
-
-            for (unsigned int col = 0; col < matrix.getCols(); ++col) {
-                rows.push_back(matrix(row, col));
-            }
-
-            j["data"].push_back(rows);
+            j["data"].push_back(matrix.getRow(row));
         }
 
         return j;
@@ -775,14 +800,21 @@ namespace matrix {
 
     template<typename T>
     Matrix<T> MatrixJsonDeserializer<T>::fromJson(const json& j) {
-        unsigned int rows = j.at("rows").get<unsigned int>();
-        unsigned int cols = j.at("cols").get<unsigned int>();
+        unsigned int rows = j["data"].size();
+        unsigned int cols = rows > 0
+            ? j["data"][0].size()
+            : 0;
 
         Matrix<T> matrix(rows, cols);
-        for (unsigned int row = 0; row < rows; ++row) {
+     /*   for (unsigned int row = 0; row < rows; ++row) {
             for (unsigned int col = 0; col < cols; ++col) {
                 matrix(row, col) = j["data"][row][col].get<T>();
             }
+        }*/
+
+        for (unsigned int row = 0; row < rows; ++row) {
+            std::vector<T> row_data = j["data"][row].get<std::vector<T>>();
+            matrix.setRow(row, row_data);
         }
 
         return matrix;

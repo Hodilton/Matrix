@@ -115,6 +115,9 @@ namespace matrix {
 		Matrix<T>& operator-=(const Matrix<T>& matrix);
 		Matrix<T>& operator*=(const Matrix<T>& matrix);
 
+		std::vector<T> operator*(const std::vector<T>& vec) const;
+		std::vector<T>& operator*=(std::vector<T>& vec) const;
+
 		Matrix<T> operator+(const T& value);
 		Matrix<T> operator-(const T& value);
 		Matrix<T> operator*(const T& value);
