@@ -548,7 +548,7 @@ namespace matrix {
                 }
             }
         }
-        result.roundValues(6);
+        result.roundValues(10);
         return result;
     }
 
