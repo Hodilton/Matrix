@@ -2,7 +2,7 @@
 #define MATRIX_H
 
 #include "./Dependencies/random.h"
-#include "./Dependencies/file_work/include/json/json.hpp"
+#include "./File/include/json.hpp"
 using json = nlohmann::json;
 
 #include <iostream>
