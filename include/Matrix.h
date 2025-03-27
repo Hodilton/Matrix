@@ -2,7 +2,7 @@
 #define MATRIX_H
 
 #include "../src/core/size.h"
-#include "../src/core/matrix_impl.h"
+#include "../src/core/matrix_core.h"
 
 #include "../src/decorators/arithmetic_decorator.h"
 //#include "../src/decorators/comparison_decorator.h"
@@ -12,7 +12,7 @@
 namespace matrix {
 
     template <typename T>
-    class Matrix : public core::MatrixImpl<T>{
+    class Matrix : public core::MatrixCore<T>{
     private:
         decorators::ArithmeticDecorator<T> arithmeticDecorator;
         //std::unique_ptr<Decorators::ComparisonDecorator<T>> comparisonDecorator;
@@ -47,9 +47,6 @@ namespace matrix {
 
         //json toJson() const;
         //static Matrix<T> fromJson(const json& j);
-
-        core::MatrixImpl<T>& getMatrixImpl();
-        decorators::ArithmeticDecorator<T>& getArithmeticDecorator();
     };
 }
 

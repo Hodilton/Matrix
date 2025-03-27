@@ -1,5 +1,5 @@
-#ifndef MATRIX_IMPL_H
-#define MATRIX_IMPL_H
+#ifndef MATRIX_CORE_H
+#define MATRIX_CORE_H
 
 #include "./size.h"
 
@@ -8,14 +8,14 @@
 namespace matrix::core {
 
     template <typename T>
-    class MatrixImpl {
+    class MatrixCore {
     protected:
         Size _size;
         std::vector<std::vector<T>> _elements;
         
     public:
-        MatrixImpl(size_t rows, size_t cols);
-        MatrixImpl(const std::vector<std::vector<T>>& values);
+        MatrixCore(size_t rows, size_t cols);
+        MatrixCore(const std::vector<std::vector<T>>& values);
 
     public:
         size_t getRows() const;
@@ -27,5 +27,5 @@ namespace matrix::core {
     };
 }
 
-#include "./matrix_impl.cpp"
-#endif // !MATRIX_IMPL_H
+#include "./matrix_core.cpp"
+#endif // !MATRIX_CORE_H

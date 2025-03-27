@@ -5,50 +5,50 @@
 namespace matrix::decorators {
 
 	template<typename T>
-	inline ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixImpl<T>& m)
+	inline ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& m)
 		: matrix(m) {
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator+(const core::MatrixImpl<T>& other) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator+(const core::MatrixCore<T>& other) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator-(const core::MatrixImpl<T>& other) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator-(const core::MatrixCore<T>& other) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator*(const core::MatrixImpl<T>& other) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator*(const core::MatrixCore<T>& other) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator+(const T& value) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator+(const T& value) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator-(const T& value) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator-(const T& value) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator*(const T& value) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator*(const T& value) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 
 	template<typename T>
-	core::MatrixImpl<T> ArithmeticDecorator<T>::operator/(const T& value) const
+	core::MatrixCore<T> ArithmeticDecorator<T>::operator/(const T& value) const
 	{
-		return core::MatrixImpl<T>();
+		return core::MatrixCore<T>();
 	}
 }
 
