@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Barsuk\Documents\Programming;C:\Users\barsuk\Documents\GitHub\Dependencies;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Barsuk\Documents\Programming;C:\Users\ameno\OneDrive\Documents\Programming;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,11 +130,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\core\matrix_impl.cpp" />
+    <ClCompile Include="src\core\size.cpp" />
+    <ClCompile Include="src\decorators\arithmetic_decorator.cpp" />
+    <ClCompile Include="src\Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="include\Matrix.h" />
+    <ClInclude Include="src\decorators\arithmetic_decorator.h" />
+    <ClInclude Include="src\decorators\comparison_decorator.h" />
+    <ClInclude Include="src\decorators\math_operations_decorator.h" />
+    <ClInclude Include="src\core\matrix_impl.h" />
+    <ClInclude Include="src\core\size.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
