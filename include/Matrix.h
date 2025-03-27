@@ -14,15 +14,23 @@ namespace matrix {
     template <typename T>
     class Matrix : public core::MatrixCore<T>{
     private:
-        decorators::ArithmeticDecorator<T> arithmeticDecorator;
+        decorators::ArithmeticDecorator<T>* _arithmeticDecorator;
         //std::unique_ptr<Decorators::ComparisonDecorator<T>> comparisonDecorator;
         //std::unique_ptr<Decorators::MathOperationsDecorator<T>> mathOperationsDecorator;
         //std::unique_ptr<Decorators::SerializationDecorator<T>> serializationDecorator;
 
     public:
+        Matrix();
         Matrix(size_t rows, size_t cols);
+        Matrix(const Size& size);
         Matrix(const std::vector<std::vector<T>>& values);
+        Matrix(const Matrix<T>& other);
+        ~Matrix();
 
+    private:
+        void initDecorators();
+
+    public:
         Matrix<T> operator+(const Matrix<T>& other) const;
         //Matrix<T> operator-(const Matrix<T>& other) const;
         //Matrix<T> operator*(const Matrix<T>& other) const;
