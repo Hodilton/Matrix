@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\core\matrix_impl.cpp" />
+    <ClCompile Include="src\core\matrix_core.cpp" />
     <ClCompile Include="src\core\size.cpp" />
     <ClCompile Include="src\decorators\arithmetic_decorator.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
@@ -141,7 +141,7 @@
     <ClInclude Include="src\decorators\arithmetic_decorator.h" />
     <ClInclude Include="src\decorators\comparison_decorator.h" />
     <ClInclude Include="src\decorators\math_operations_decorator.h" />
-    <ClInclude Include="src\core\matrix_impl.h" />
+    <ClInclude Include="src\core\matrix_core.h" />
     <ClInclude Include="src\core\size.h" />
   </ItemGroup>
   <ItemGroup>
