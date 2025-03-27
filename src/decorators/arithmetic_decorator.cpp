@@ -3,10 +3,14 @@
 #include "./arithmetic_decorator.h"
 
 namespace matrix::decorators {
+	template<typename T>
+	ArithmeticDecorator<T>::ArithmeticDecorator()
+		: _matrix(nullptr) {
+	}
 
 	template<typename T>
-	inline ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& m)
-		: matrix(m) {
+	ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& m)
+		: _matrix(&m) {
 	}
 
 	template<typename T>

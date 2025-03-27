@@ -7,12 +7,14 @@ namespace matrix::decorators {
 
     template <typename T>
     class ArithmeticDecorator {
-    public:
-        core::MatrixCore<T>& matrix;
+    private:
+        core::MatrixCore<T>* _matrix;
 
     public:
+        ArithmeticDecorator();
         explicit ArithmeticDecorator(core::MatrixCore<T>& m);
 
+    public:
         core::MatrixCore<T> operator+(const core::MatrixCore<T>& other) const;
         core::MatrixCore<T> operator-(const core::MatrixCore<T>& other) const;
         core::MatrixCore<T> operator*(const core::MatrixCore<T>& other) const;
