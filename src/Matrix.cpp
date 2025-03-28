@@ -46,12 +46,82 @@ namespace matrix {
 		_serializationDecorator = new decorators::SerializationDecorator<T>(*this);
 	}
 
-	template<typename T>
-	Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const
-	{
-		core::MatrixCore<T> resultImpl = _arithmeticDecorator + other;
-		return Matrix<T>(resultImpl);
-	}
+    template <typename T>
+    Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const {
+        return _arithmeticDecorator.operator+(other);
+    }
+
+    template <typename T>
+    Matrix<T> Matrix<T>::operator-(const Matrix<T>& other) const {
+        return _arithmeticDecorator.operator-(other);
+    }
+
+    template <typename T>
+    Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const {
+        return _arithmeticDecorator.operator*(other);
+    }
+
+    template <typename T>
+    Matrix<T> Matrix<T>::operator+(const T& value) const {
+        return _arithmeticDecorator.operator+(value);
+    }
+
+    template <typename T>
+    Matrix<T> Matrix<T>::operator-(const T& value) const {
+        return _arithmeticDecorator.operator-(value);
+    }
+
+    template <typename T>
+    Matrix<T> Matrix<T>::operator*(const T& value) const {
+        return _arithmeticDecorator.operator*(value);
+    }
+
+    template<typename T>
+    Matrix<T> Matrix<T>::operator/(const T& value) const {
+        return _arithmeticDecorator.operator/(value);
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other) {
+        _arithmeticDecorator.operator+=(other);
+        return *this;
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator-=(const Matrix<T>& other) {
+        _arithmeticDecorator.operator-=(other);
+        return *this;
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other) {
+        _arithmeticDecorator.operator*=(other);
+        return *this;
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator+=(const T& value) {
+        _arithmeticDecorator.operator+=(value);
+        return *this;
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator-=(const T& value) {
+        _arithmeticDecorator.operator-=(value);
+        return *this;
+    }
+
+    template <typename T>
+    Matrix<T>& Matrix<T>::operator*=(const T& value) {
+        _arithmeticDecorator.operator*=(value);
+        return *this;
+    }
+
+    template<typename T>
+    Matrix<T>& Matrix<T>::operator/=(const T& value) {
+        _arithmeticDecorator.operator/=(value);
+        return *this;
+    }
 
 	template<typename T>
 	std::ostream& operator<<(std::ostream& out, const Matrix<T>& matrix) {

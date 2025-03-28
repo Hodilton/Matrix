@@ -18,10 +18,20 @@ namespace matrix::decorators {
         core::MatrixCore<T> operator+(const core::MatrixCore<T>& other) const;
         core::MatrixCore<T> operator-(const core::MatrixCore<T>& other) const;
         core::MatrixCore<T> operator*(const core::MatrixCore<T>& other) const;
+
         core::MatrixCore<T> operator+(const T& value) const;
         core::MatrixCore<T> operator-(const T& value) const;
         core::MatrixCore<T> operator*(const T& value) const;
         core::MatrixCore<T> operator/(const T& value) const;
+
+        ArithmeticDecorator<T>& operator+=(const core::MatrixCore<T>& other);
+        ArithmeticDecorator<T>& operator-=(const core::MatrixCore<T>& other);
+        ArithmeticDecorator<T>& operator*=(const core::MatrixCore<T>& other);
+
+        ArithmeticDecorator<T>& operator+=(const T& value);
+        ArithmeticDecorator<T>& operator-=(const T& value);
+        ArithmeticDecorator<T>& operator*=(const T& value);
+        ArithmeticDecorator<T>& operator/=(const T& value);
     };
 }
 

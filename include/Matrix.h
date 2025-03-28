@@ -32,12 +32,22 @@ namespace matrix {
 
     public:
         Matrix<T> operator+(const Matrix<T>& other) const;
-        //Matrix<T> operator-(const Matrix<T>& other) const;
-        //Matrix<T> operator*(const Matrix<T>& other) const;
-        //Matrix<T> operator+(const T& value) const;
-        //Matrix<T> operator-(const T& value) const;
-        //Matrix<T> operator*(const T& value) const;
-        //Matrix<T> operator/(const T& value) const;
+        Matrix<T> operator-(const Matrix<T>& other) const;
+        Matrix<T> operator*(const Matrix<T>& other) const;
+
+        Matrix<T> operator+(const T& value) const;
+        Matrix<T> operator-(const T& value) const;
+        Matrix<T> operator*(const T& value) const;
+        Matrix<T> operator/(const T& value) const;
+
+        Matrix<T>& operator+=(const Matrix<T>& other);
+        Matrix<T>& operator-=(const Matrix<T>& other);
+        Matrix<T>& operator*=(const Matrix<T>& other);
+
+        Matrix<T>& operator+=(const T& value);
+        Matrix<T>& operator-=(const T& value);
+        Matrix<T>& operator*=(const T& value);
+        Matrix<T>& operator/=(const T& value);
 
         //bool operator==(const Matrix<T>& other) const;
         //bool operator!=(const Matrix<T>& other) const;
@@ -49,12 +59,10 @@ namespace matrix {
         //Matrix<T> transpose() const;
         //T determinant() const;
         //Matrix<T> inverse() const;
+
         //T sum() const;
         //T sumRow(size_t row) const;
         //T sumColumn(size_t col) const;
-
-        //json toJson() const;
-        //static Matrix<T> fromJson(const json& j);
 
         template<typename U>
         friend std::ostream& operator<<(std::ostream& out, const Matrix<U>& matrix);
