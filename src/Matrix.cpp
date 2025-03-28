@@ -36,14 +36,18 @@ namespace matrix {
 
 	template<typename T>
 	Matrix<T>::~Matrix() {
+        delete round;
 		delete _arithmeticDecorator;
 		delete _serializationDecorator;
+        delete math;
 	}
 
 	template<typename T>
 	void Matrix<T>::initDecorators() {
 		_arithmeticDecorator = new decorators::ArithmeticDecorator<T>(*this);
 		_serializationDecorator = new decorators::SerializationDecorator<T>(*this);
+        math = new decorators::MathOperationsDecorator<T>(*this);
+        round = new decorators::RoundingDecorator<T>(*this);
 	}
 
     template <typename T>
@@ -58,7 +62,7 @@ namespace matrix {
 
     template <typename T>
     Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const {
-        return _arithmeticDecorator.operator*(other);
+        return _arithmeticDecorator->operator*(other);
     }
 
     template <typename T>

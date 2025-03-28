@@ -6,12 +6,18 @@ namespace matrix::decorators {
 
 	template<typename T>
 	ArithmeticDecorator<T>::ArithmeticDecorator()
-		: _matrix(nullptr) {
+		: _matrix(nullptr), _roundingDecorator(nullptr) {
 	}
 
 	template<typename T>
 	ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& m)
 		: _matrix(&m) {
+		_roundingDecorator = new RoundingDecorator<T>(m);
+	}
+
+	template<typename T>
+	ArithmeticDecorator<T>::~ArithmeticDecorator() {
+		delete _roundingDecorator;
 	}
 
 	template<typename T>
@@ -43,12 +49,12 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator*(const core::MatrixCore<T>& other) const {
+	Matrix<T> ArithmeticDecorator<T>::operator*(const Matrix<T>& other) const {
 		if (_matrix->getCols() != other.getRows()) {
 			throw std::invalid_argument("Matrix dimensions must match for multiplication.");
 		}
 
-		core::MatrixCore<T> result(_matrix->getRows(), other.getCols());
+		Matrix<T> result(_matrix->getRows(), other.getCols());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < other.getCols(); ++j) {
 				T sum = T{};
@@ -56,7 +62,9 @@ namespace matrix::decorators {
 					sum += (*_matrix)(i, k) * other(k, j);
 				} result(i, j) = sum;
 			}
-		} return result;
+		}
+		result.round->allElementsEqualToZero();
+		return result;
 	}
 
 	template<typename T>

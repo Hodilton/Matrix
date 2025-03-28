@@ -6,8 +6,9 @@
 
 #include "../src/decorators/arithmetic_decorator.h"
 //#include "../src/decorators/comparison_decorator.h"
-//#include "../src/decorators/math_operations_decorator.h"
+#include "../src/decorators/math_operations_decorator.h"
 #include "../src/decorators/serialization_decorator.h"
+#include "../src/decorators/rounding_decorator.h"
 
 namespace matrix {
 
@@ -16,8 +17,11 @@ namespace matrix {
     private:
         decorators::ArithmeticDecorator<T>* _arithmeticDecorator;
         //std::unique_ptr<Decorators::ComparisonDecorator<T>> comparisonDecorator;
-        //std::unique_ptr<Decorators::MathOperationsDecorator<T>> mathOperationsDecorator;
         decorators::SerializationDecorator<T>* _serializationDecorator;
+
+    public:
+        decorators::MathOperationsDecorator<T>* math;
+        decorators::RoundingDecorator<T>* round;
 
     public:
         Matrix();

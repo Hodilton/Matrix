@@ -1,30 +1,27 @@
 ﻿#include "./include/Matrix.h"
 
 #include <iostream>
-
-void testMatrix() {
-    using namespace matrix;
-
-    Matrix<int> m1;
-    Matrix<int> m2(3, 4);
-
-    Size size(2, 3);
-    Matrix<int> m3(size);
-
-    std::vector<std::vector<int>> values = { {1, 2, 3}, {4, 5, 6} };
-    Matrix<int> m4(values);
-
-    Matrix<int> m5(m4);
-
-    m4(0, 1) = 99;
-    std::cout << m4 << std::endl;
-
-    m4.resize(4, 5);
-    std::cout << m4 << std::endl;
-}
+#include <Windows.h>
+using namespace matrix;
 
 int main() {
-    testMatrix();
+    SetConsoleOutputCP(1251);
+
+    Matrix<double> matrix({
+       {2, -1, 0},
+       {1,  3, 2},
+       {0,  1, 1}
+    });
+
+    std::cout << "Исходная матрица:\n" << matrix << "\n";
+    double det = matrix.math->determinant();
+    std::cout << "Определитель: " << det << std::endl;
+
+    Matrix<double> matrix_inv = matrix.math->inverse();
+    std::cout << matrix_inv << std::endl;
+
+    Matrix<double> I = matrix * matrix_inv;
+    std::cout << "Единичная матрица:\n" << I << "\n";
 
 	return 0;
 }
