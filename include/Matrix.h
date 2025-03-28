@@ -7,7 +7,7 @@
 #include "../src/decorators/arithmetic_decorator.h"
 //#include "../src/decorators/comparison_decorator.h"
 //#include "../src/decorators/math_operations_decorator.h"
-//#include "../src/decorators/serialization_decorator.h"
+#include "../src/decorators/serialization_decorator.h"
 
 namespace matrix {
 
@@ -17,7 +17,7 @@ namespace matrix {
         decorators::ArithmeticDecorator<T>* _arithmeticDecorator;
         //std::unique_ptr<Decorators::ComparisonDecorator<T>> comparisonDecorator;
         //std::unique_ptr<Decorators::MathOperationsDecorator<T>> mathOperationsDecorator;
-        //std::unique_ptr<Decorators::SerializationDecorator<T>> serializationDecorator;
+        decorators::SerializationDecorator<T>* _serializationDecorator;
 
     public:
         Matrix();
@@ -55,6 +55,11 @@ namespace matrix {
 
         //json toJson() const;
         //static Matrix<T> fromJson(const json& j);
+
+        template<typename U>
+        friend std::ostream& operator<<(std::ostream& out, const Matrix<U>& matrix);
+        template<typename U>
+        friend std::istream& operator>>(const std::istream& in, Matrix<U>& matrix);
     };
 }
 

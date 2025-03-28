@@ -37,11 +37,13 @@ namespace matrix {
 	template<typename T>
 	Matrix<T>::~Matrix() {
 		delete _arithmeticDecorator;
+		delete _serializationDecorator;
 	}
 
 	template<typename T>
 	void Matrix<T>::initDecorators() {
 		_arithmeticDecorator = new decorators::ArithmeticDecorator<T>(*this);
+		_serializationDecorator = new decorators::SerializationDecorator<T>(*this);
 	}
 
 	template<typename T>
@@ -49,6 +51,20 @@ namespace matrix {
 	{
 		core::MatrixCore<T> resultImpl = _arithmeticDecorator + other;
 		return Matrix<T>(resultImpl);
+	}
+
+	template<typename T>
+	std::ostream& operator<<(std::ostream& out, const Matrix<T>& matrix) {
+		if (matrix._serializationDecorator) {
+			matrix._serializationDecorator->print(out);
+		} return out;
+	}
+
+	template<typename T>
+	std::istream& operator>>(const std::istream& in, Matrix<T>& matrix) {
+		if (matrix._serializationDecorator) {
+			matrix._serializationDecorator->read(in);;
+		} return in;
 	}
 }
 

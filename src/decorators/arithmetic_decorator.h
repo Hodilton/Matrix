@@ -1,5 +1,5 @@
-#ifndef MATRIX_DECORATORS_H
-#define MATRIX_DECORATORS_H
+#ifndef MATRIX_ARITHMETIC_DECORATOR_H
+#define MATRIX_ARITHMETIC_DECORATOR_H
 
 #include "../core/matrix_core.h"
 
@@ -26,4 +26,4 @@ namespace matrix::decorators {
 }
 
 #include "./arithmetic_decorator.cpp"
-#endif // !MATRIX_DECORATORS_H
+#endif // !MATRIX_ARITHMETIC_DECORATOR_H

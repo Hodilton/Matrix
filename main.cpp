@@ -17,7 +17,10 @@ void testMatrix() {
     Matrix<int> m5(m4);
 
     m4(0, 1) = 99;
+    std::cout << m4 << std::endl;
+
     m4.resize(4, 5);
+    std::cout << m4 << std::endl;
 }
 
 int main() {
