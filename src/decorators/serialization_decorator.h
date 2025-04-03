@@ -14,7 +14,8 @@ namespace matrix::decorators {
 
     public:
         SerializationDecorator();
-        explicit SerializationDecorator(core::MatrixCore<T>& m);
+        explicit SerializationDecorator(core::MatrixCore<T>& matrix);
+        ~SerializationDecorator();
 
     public:
         void print(std::ostream& out) const;

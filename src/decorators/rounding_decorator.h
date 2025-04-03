@@ -2,7 +2,13 @@
 #define MATRIX_ROUNDING_DECORATOR_H
 
 #include "../core/matrix_core.h"
+
 #include <cmath>
+
+namespace matrix {
+    template <typename T>
+    class Matrix;
+}
 
 namespace matrix::decorators {
 
@@ -10,14 +16,15 @@ namespace matrix::decorators {
     class RoundingDecorator {
     private:
         core::MatrixCore<T>* _matrix;
-        static constexpr T EPSILON = 1e-6;
 
     public:
         RoundingDecorator();
-        explicit RoundingDecorator(core::MatrixCore<T>& m);
+        explicit RoundingDecorator(core::MatrixCore<T>& matrix);
+        ~RoundingDecorator();
 
+    public:
         void roundAll(unsigned int precision = 2);
-        core::MatrixCore<T> getRounded(unsigned int precision = 2) const;
+        Matrix<T> getRounded(unsigned int precision = 2) const;
 
         void roundElement(size_t row, size_t col, unsigned int precision = 2);
         T getRoundedElement(size_t row, size_t col, unsigned int precision = 2) const;
@@ -29,11 +36,14 @@ namespace matrix::decorators {
         std::vector<T> getRoundedColumn(size_t col, unsigned int precision = 2) const;
 
         void allElementsEqualToZero() const;
+        Matrix<T> getAllElementsEqualToZero() const;
 
-        static core::MatrixCore<T> roundMatrix(const core::MatrixCore<T>& matrix, unsigned int precision = 2);
+        static Matrix<T> roundMatrix(const Matrix<T>& matrix, unsigned int precision = 2);
 
     private:
         T roundValue(T value, unsigned int precision) const;
+
+        static constexpr T EPSILON = 1e-6;
         bool isEqual(T a, T b) const;
     };
 }

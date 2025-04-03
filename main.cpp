@@ -1,6 +1,5 @@
 ﻿#include "./include/Matrix.h"
 
-#include <iostream>
 #include <Windows.h>
 using namespace matrix;
 
@@ -13,15 +12,14 @@ int main() {
        {0,  1, 1}
     });
 
-    std::cout << "Исходная матрица:\n" << matrix << "\n";
-    double det = matrix.math->determinant();
-    std::cout << "Определитель: " << det << std::endl;
+    std::cout << "Исходная матрица:\n" << matrix << std::endl;
+    std::cout << "Определитель: " << matrix.math->determinant() << std::endl;
 
     Matrix<double> matrix_inv = matrix.math->inverse();
-    std::cout << matrix_inv << std::endl;
+    std::cout << "\nОбратная матрица:\n" << matrix_inv << std::endl;
 
-    Matrix<double> I = matrix * matrix_inv;
-    std::cout << "Единичная матрица:\n" << I << "\n";
+    Matrix<double> matrix_i = matrix * matrix_inv; matrix_i.rounder->allElementsEqualToZero();
+    std::cout << "Исходная * Обратная:\n" << matrix_i << std::endl;
 
 	return 0;
 }

@@ -6,27 +6,25 @@ namespace matrix::decorators {
 
 	template<typename T>
 	ArithmeticDecorator<T>::ArithmeticDecorator()
-		: _matrix(nullptr), _roundingDecorator(nullptr) {
+		: _matrix(nullptr) {
 	}
 
 	template<typename T>
-	ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& m)
-		: _matrix(&m) {
-		_roundingDecorator = new RoundingDecorator<T>(m);
+	ArithmeticDecorator<T>::ArithmeticDecorator(core::MatrixCore<T>& matrix)
+		: _matrix(&matrix) {
 	}
 
 	template<typename T>
 	ArithmeticDecorator<T>::~ArithmeticDecorator() {
-		delete _roundingDecorator;
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator+(const core::MatrixCore<T>& other) const {
+	Matrix<T> ArithmeticDecorator<T>::operator+(const Matrix<T>& other) const {
 		if (_matrix->getRows() != other.getRows() || _matrix->getCols() != other.getCols()) {
 			throw std::invalid_argument("Matrix dimensions must match for addition.");
 		}
 
-		core::MatrixCore<T> result(_matrix->getSize());
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) + other(i, j);
@@ -35,12 +33,12 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator-(const core::MatrixCore<T>& other) const {
+	Matrix<T> ArithmeticDecorator<T>::operator-(const Matrix<T>& other) const {
 		if (_matrix->getRows() != other.getRows() || _matrix->getCols() != other.getCols()) {
 			throw std::invalid_argument("Matrix dimensions must match for subtraction.");
 		}
 
-		core::MatrixCore<T> result(_matrix->getSize());
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) - other(i, j);
@@ -62,14 +60,12 @@ namespace matrix::decorators {
 					sum += (*_matrix)(i, k) * other(k, j);
 				} result(i, j) = sum;
 			}
-		}
-		result.round->allElementsEqualToZero();
-		return result;
+		} return result;
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator+(const T& value) const {
-		core::MatrixCore<T> result(_matrix->getSize());
+	Matrix<T> ArithmeticDecorator<T>::operator+(const T& value) const {
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) + value;
@@ -78,8 +74,8 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator-(const T& value) const {
-		core::MatrixCore<T> result(_matrix->getSize());
+	Matrix<T> ArithmeticDecorator<T>::operator-(const T& value) const {
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) - value;
@@ -88,8 +84,8 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator*(const T& value) const {
-		core::MatrixCore<T> result(_matrix->getSize());
+	Matrix<T> ArithmeticDecorator<T>::operator*(const T& value) const {
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) * value;
@@ -98,12 +94,12 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	core::MatrixCore<T> ArithmeticDecorator<T>::operator/(const T& value) const {
+	Matrix<T> ArithmeticDecorator<T>::operator/(const T& value) const {
 		if (value == T{}) {
 			throw std::invalid_argument("Division by zero.");
 		}
 
-		core::MatrixCore<T> result(_matrix->getSize());
+		Matrix<T> result(_matrix->getSize());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				result(i, j) = (*_matrix)(i, j) / value;

@@ -132,8 +132,8 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\core\matrix_core.cpp" />
-    <ClCompile Include="src\core\size.cpp" />
     <ClCompile Include="src\decorators\arithmetic_decorator.cpp" />
+    <ClCompile Include="src\decorators\comparison_decorator.cpp" />
     <ClCompile Include="src\decorators\math_operations_decorator.cpp" />
     <ClCompile Include="src\decorators\rounding_decorator.cpp" />
     <ClCompile Include="src\decorators\serialization_decorator.cpp" />

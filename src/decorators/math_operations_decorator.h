@@ -2,7 +2,6 @@
 #define MATRIX_MATH_OPERATION_DECORATOR_H
 
 #include "../core/matrix_core.h"
-#include "./rounding_decorator.h"
 
 #include "./CPlusPlus-Dependencies/random.h"
 
@@ -17,22 +16,21 @@ namespace matrix::decorators {
     class MathOperationsDecorator {
     private:
         core::MatrixCore<T>* _matrix;
-        RoundingDecorator<T>* _roundingDecorator;
 
     public:
         MathOperationsDecorator();
-        MathOperationsDecorator(core::MatrixCore<T>& m);
+        MathOperationsDecorator(core::MatrixCore<T>& matrix);
         ~MathOperationsDecorator();
 
     public:
-        core::MatrixCore<T> getMinor(size_t row, size_t col) const;
+        Matrix<T> getMinor(size_t row, size_t col) const;
 
         bool isDiagonalDominance() const;
         T norm(const std::vector<T>& vec) const;
         T determinant() const;
 
-        matrix::Matrix<T> transpose() const;
-        matrix::Matrix<T> inverse() const;
+        Matrix<T> transpose() const;
+        Matrix<T> inverse() const;
 
         T sum() const;
         T sumRow(size_t row) const;

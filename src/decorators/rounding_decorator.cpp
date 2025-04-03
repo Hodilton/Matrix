@@ -10,11 +10,15 @@ namespace matrix::decorators {
     }
 
     template <typename T>
-    RoundingDecorator<T>::RoundingDecorator(core::MatrixCore<T>& m)
-        : _matrix(&m) {
+    RoundingDecorator<T>::RoundingDecorator(core::MatrixCore<T>& matrix)
+        : _matrix(&matrix) {
     }
 
-    template <typename T>
+    template<typename T>
+    RoundingDecorator<T>::~RoundingDecorator() {
+    }
+
+    template<typename T>
     T RoundingDecorator<T>::roundValue(T value, unsigned int precision) const {
         T factor = std::pow(10, precision);
         return std::round(value * factor) / factor;
@@ -34,11 +38,10 @@ namespace matrix::decorators {
         }
     }
 
-    template <typename T>
-    core::MatrixCore<T> RoundingDecorator<T>::getRounded(unsigned int precision) const {
-        core::MatrixCore<T> roundedMatrix = *_matrix;
-        RoundingDecorator<T> tempDecorator(roundedMatrix);
-        tempDecorator.roundAll(precision);
+    template<typename T>
+    Matrix<T> RoundingDecorator<T>::getRounded(unsigned int precision) const {
+        Matrix<T> roundedMatrix = *_matrix;
+        roundedMatrix.rounder->roundAll(precision);
         return roundedMatrix;
     }
 
@@ -64,8 +67,7 @@ namespace matrix::decorators {
         std::vector<T> roundedRow = _matrix->getRow(row);
         for (T& val : roundedRow) {
             val = roundValue(val, precision);
-        }
-        return roundedRow;
+        } return roundedRow;
     }
 
     template <typename T>
@@ -80,8 +82,7 @@ namespace matrix::decorators {
         std::vector<T> roundedCol = _matrix->getCol(col);
         for (T& val : roundedCol) {
             val = roundValue(val, precision);
-        }
-        return roundedCol;
+        } return roundedCol;
     }
 
     template<typename T>
@@ -95,11 +96,17 @@ namespace matrix::decorators {
         }
     }
 
-    template <typename T>
-    core::MatrixCore<T> RoundingDecorator<T>::roundMatrix(const core::MatrixCore<T>& matrix, unsigned int precision) {
-        core::MatrixCore<T> roundedMatrix = matrix;
-        RoundingDecorator<T> tempDecorator(roundedMatrix);
-        tempDecorator.roundAll(precision);
+    template<typename T>
+    Matrix<T> RoundingDecorator<T>::getAllElementsEqualToZero() const {
+        Matrix<T> roundedMatrix = *_matrix;
+        roundedMatrix.rounder->allElementsEqualToZero();
+        return roundedMatrix;
+    }
+
+    template<typename T>
+    Matrix<T> RoundingDecorator<T>::roundMatrix(const Matrix<T>& matrix, unsigned int precision) {
+        Matrix<T> roundedMatrix = matrix;
+        roundedMatrix.rounder->roundAll(precision);
         return roundedMatrix;
     }
 }

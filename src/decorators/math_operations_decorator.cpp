@@ -6,51 +6,52 @@ namespace matrix::decorators {
 
 	template <typename T>
 	MathOperationsDecorator<T>::MathOperationsDecorator()
-		: _matrix(nullptr), _roundingDecorator(nullptr) {
+		: _matrix(nullptr) {
 	}
 
 	template <typename T>
-	MathOperationsDecorator<T>::MathOperationsDecorator(core::MatrixCore<T>& m)
-		: _matrix(&m) {
-		_roundingDecorator = new RoundingDecorator<T>(m);
+	MathOperationsDecorator<T>::MathOperationsDecorator(core::MatrixCore<T>& matrix)
+		: _matrix(&matrix) {
 	}
 
 	template<typename T>
 	MathOperationsDecorator<T>::~MathOperationsDecorator() {
-		delete _roundingDecorator;
 	}
 
 	template<typename T>
-	core::MatrixCore<T> MathOperationsDecorator<T>::getMinor(size_t row, size_t col) const {
-		if (_matrix->getRows() <= 1 || _matrix->getCols() <= 1) {
+	Matrix<T> MathOperationsDecorator<T>::getMinor(size_t row, size_t col) const {
+		const size_t rows = _matrix->getRows();
+		const size_t cols = _matrix->getCols();
+
+		if (rows <= 1 || cols <= 1) {
 			throw std::runtime_error("Matrix too small for minor.");
 		}
 
-		core::MatrixCore<T> minorMatrix(_matrix->getRows() - 1, _matrix->getCols() - 1);
-		size_t newRow = 0, newCol = 0;
+		Matrix<T> minor(rows - 1, cols - 1);
+		size_t minorRow = 0, minorCol = 0;
 
-		for (size_t i = 0; i < _matrix->getRows(); ++i) {
+		for (size_t i = 0; i < rows; ++i) {
 			if (i == row) continue;
-			newCol = 0;
-			for (size_t j = 0; j < _matrix->getCols(); ++j) {
+			minorCol = 0;
+			for (size_t j = 0; j < cols; ++j) {
 				if (j == col) continue;
-				minorMatrix(newRow, newCol) = (*_matrix)(i, j);
-				newCol++;
-			} newRow++;
-		} return minorMatrix;
+				minor(minorRow, minorCol) = (*_matrix)(i, j);
+				minorCol++;
+			} minorRow++;
+		} return minor;
 	}
 
 	template<typename T>
 	bool MathOperationsDecorator<T>::isDiagonalDominance() const {
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
-			T diagonalElement = std::abs((*_matrix)(i, i));
+			T diag = std::abs((*_matrix)(i, i));
 			T sumRow = 0;
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				if (i != j) {
 					sumRow += std::abs((*_matrix)(i, j));
 				}
 			}
-			if (diagonalElement < sumRow) {
+			if (diag < sumRow) {
 				return false;
 			}
 		} return true;
@@ -72,19 +73,23 @@ namespace matrix::decorators {
 
 		size_t n = _matrix->getRows();
 		if (n == 1) return (*_matrix)(0, 0);
-		if (n == 2) return (*_matrix)(0, 0) * (*_matrix)(1, 1) - (*_matrix)(0, 1) * (*_matrix)(1, 0);
+		if (n == 2) {
+			return (*_matrix)(0, 0) * (*_matrix)(1, 1)
+				 - (*_matrix)(0, 1) * (*_matrix)(1, 0);
+		}
 
 		T det = 0;
 		for (size_t col = 0; col < n; ++col) {
-			core::MatrixCore<T> minor = getMinor(0, col);
-			MathOperationsDecorator<T> minorDecorator(minor);
-			det += (col % 2 == 0 ? 1 : -1) * (*_matrix)(0, col) * minorDecorator.determinant();
+			Matrix<T> minor = getMinor(0, col);
+			det += (col % 2 == 0 ? 1 : -1)
+				 * (*_matrix)(0, col)
+				 * minor.math->determinant();
 		} return det;
 	}
 
 	template<typename T>
-	matrix::Matrix<T> MathOperationsDecorator<T>::transpose() const {
-		matrix::Matrix<T> transposed(_matrix->getCols(), _matrix->getRows());
+	Matrix<T> MathOperationsDecorator<T>::transpose() const {
+		Matrix<T> transposed(_matrix->getCols(), _matrix->getRows());
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
 				transposed(j, i) = (*_matrix)(i, j);
@@ -93,49 +98,48 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
-	matrix::Matrix<T> MathOperationsDecorator<T>::inverse() const {
+	Matrix<T> MathOperationsDecorator<T>::inverse() const {
 		T det = determinant();
 		if (det == 0) {
 			throw std::runtime_error("Matrix is singular and cannot be inverted.");
 		}
 
 		size_t n = _matrix->getRows();
-		matrix::Matrix<T> adjugate(n, n);
+		Matrix<T> adjugate(n, n);
 
 		for (size_t i = 0; i < n; ++i) {
 			for (size_t j = 0; j < n; ++j) {
-				core::MatrixCore<T> minor = getMinor(i, j);
-				MathOperationsDecorator<T> minorDecorator(minor);
-				T cofactor = ((i + j) % 2 == 0 ? 1 : -1) * minorDecorator.determinant();
-				adjugate(j, i) = cofactor / det;
+				Matrix<T> minor = getMinor(i, j);
+				T factor = ((i + j) % 2 == 0 ? 1 : -1) * minor.math->determinant();
+				adjugate(j, i) = factor / det;
 			}
 		} return adjugate;
 	}
 
 	template<typename T>
 	T MathOperationsDecorator<T>::sum() const {
-		T sum = 0;
+		T total = 0;
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
-				sum += (*_matrix)(i, j);
+				total += (*_matrix)(i, j);
 			}
-		} return sum;
+		} return total;
 	}
 
 	template<typename T>
 	T MathOperationsDecorator<T>::sumRow(size_t row) const {
-		T sum = 0;
+		T total = 0;
 		for (const T& val : _matrix->getRow(row)) {
-			sum += val;
-		} return sum;
+			total += val;
+		} return total;
 	}
 
 	template<typename T>
 	T MathOperationsDecorator<T>::sumColumn(size_t col) const {
-		T sum = 0;
+		T total = 0;
 		for (const T& val : _matrix->getCol(col)) {
-			sum += val;
-		} return sum;
+			total += val;
+		} return total;
 	}
 	
 	template<typename T>
@@ -143,8 +147,8 @@ namespace matrix::decorators {
 		auto gen = random::Factory::create<random::Type::Double>();
 		for (size_t i = 0; i < _matrix->getRows(); ++i) {
 			for (size_t j = 0; j < _matrix->getCols(); ++j) {
-				T randValue = gen->Get(min, max, precision);
-				(*_matrix)(i, j) = randValue;
+				T value = gen->Get(min, max, precision);
+				(*_matrix)(i, j) = value;
 			}
 		}
 	}

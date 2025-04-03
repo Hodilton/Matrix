@@ -10,8 +10,12 @@ namespace matrix::decorators {
     }
 
     template<typename T>
-    SerializationDecorator<T>::SerializationDecorator(core::MatrixCore<T>& m)
-        : _matrix(&m) {
+    SerializationDecorator<T>::SerializationDecorator(core::MatrixCore<T>& matrix)
+        : _matrix(&matrix) {
+    }
+
+    template<typename T>
+    SerializationDecorator<T>::~SerializationDecorator() {
     }
 
     template<typename T>
@@ -19,6 +23,7 @@ namespace matrix::decorators {
         if (!_matrix) {
             return;
         }
+
         for (size_t i = 0; i < _matrix->getRows(); ++i) {
             for (size_t j = 0; j < _matrix->getCols(); ++j) {
                 out << (*_matrix)(i, j);
@@ -32,6 +37,7 @@ namespace matrix::decorators {
         if (!_matrix) {
             return;
         }
+
         for (size_t i = 0; i < _matrix->getRows(); ++i) {
             for (size_t j = 0; j < _matrix->getCols(); ++j) {
                 in >> _matrix(i, j);
