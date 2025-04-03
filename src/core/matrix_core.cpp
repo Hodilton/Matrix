@@ -123,6 +123,14 @@ namespace matrix::core {
 	}
 
 	template<typename T>
+	MatrixCore<T> MatrixCore<T>::operator=(const MatrixCore<T>& other) {
+		if (this != &other) {
+			this->_size = other._size;
+			this->_elements = other._elements;
+		} return *this;
+	}
+
+	template<typename T>
 	void MatrixCore<T>::takeMemory() {
 		_elements.resize(_size.getRows(), std::vector<T>(_size.getCols()));
 	}
@@ -131,6 +139,7 @@ namespace matrix::core {
 	void MatrixCore<T>::freeMemory() {
 		_elements.clear();
 		_elements.shrink_to_fit();
+		this->_size = Size(0, 0);
 	}
 
 	template<typename T>

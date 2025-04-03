@@ -43,6 +43,8 @@ namespace matrix {
 
         delete math;
         delete rounder;
+
+        this->_core->~MatrixCore();
 	}
 
 	template<typename T>
@@ -123,6 +125,16 @@ namespace matrix {
     template<typename T>
     const T& Matrix<T>::operator()(size_t row, size_t col) const {
         return (*_core)(row, col);
+    }
+
+    template<typename T>
+    Matrix<T> Matrix<T>::operator=(const Matrix<T>& other) {
+        if (this != &other) {
+            this->~Matrix();
+            this->_core = new core::MatrixCore<T>(*other._core);
+            //*_core = *(other._core);
+            this->initDecorators();
+        } return *this;
     }
 
     template <typename T>

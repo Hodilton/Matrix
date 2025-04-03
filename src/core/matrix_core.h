@@ -37,6 +37,8 @@ namespace matrix::core {
         T& operator()(size_t row, size_t col);
         const T& operator()(size_t row, size_t col) const;
 
+        MatrixCore<T> operator=(const MatrixCore<T>& other);
+
     private:
         void takeMemory();
         void freeMemory();

@@ -55,6 +55,8 @@ namespace matrix {
         const T& operator()(size_t row, size_t col) const;
 
     public:
+        Matrix<T> operator=(const Matrix<T>& other);
+
         Matrix<T> operator+(const Matrix<T>& other) const;
         Matrix<T> operator-(const Matrix<T>& other) const;
         Matrix<T> operator*(const Matrix<T>& other) const;
