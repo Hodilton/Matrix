@@ -139,7 +139,8 @@ namespace matrix::core {
 	void MatrixCore<T>::freeMemory() {
 		_elements.clear();
 		_elements.shrink_to_fit();
-		this->_size = Size(0, 0);
+
+		//this->_size = Size(0, 0);
 	}
 
 	template<typename T>

@@ -27,6 +27,7 @@ namespace matrix::decorators {
 
         bool isDiagonalDominance() const;
         T norm(const std::vector<T>& vec) const;
+        T normSquared() const;
         T determinant() const;
 
         Matrix<T> transpose() const;

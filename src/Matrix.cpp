@@ -44,7 +44,7 @@ namespace matrix {
         delete math;
         delete rounder;
 
-        this->_core->~MatrixCore();
+        //this->_core->~MatrixCore();
 	}
 
 	template<typename T>

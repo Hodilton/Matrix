@@ -66,6 +66,16 @@ namespace matrix::decorators {
 	}
 
 	template<typename T>
+	T MathOperationsDecorator<T>::normSquared() const {
+		T sum = 0;
+		for (size_t i = 0; i < _matrix->getRows(); ++i) {
+			for (size_t j = 0; j < _matrix->getCols(); ++j) {
+				sum += (*_matrix)(i, j) * (*_matrix)(i, j);
+			}
+		} return sum;
+	}	
+
+	template<typename T>
 	T MathOperationsDecorator<T>::determinant() const {
 		if (_matrix->getRows() != _matrix->getCols()) {
 			throw std::runtime_error("Determinant can only be calculated for square matrices.");
